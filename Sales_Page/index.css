@@ -1,0 +1,51 @@
+body {
+  background-image: url("../img/—Pngtree—white\ square\ background\ material_1135078.jpg");
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+}
+/* h1 {
+  text-align: center;
+  color: #000;
+  font-size: 40px;
+  font-weight: bold;
+} */
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.admin,
+.user {
+  background: linear-gradient(to right, #fe8c00, #f83600);
+  border: 1px solid #f09234;
+  border-radius: 14px;
+  padding: 5px 10px;
+}
+
+.admin i,
+.user i {
+  font-size: 30px;
+  color: #fff;
+}
+
+.admin span,
+.user span {
+  font-size: 30px;
+  color: #fff;
+  margin-left: 15px;
+  font-weight: bold;
+}
