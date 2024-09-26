@@ -5,16 +5,10 @@ const fetchProducts = () => {
     url: BASE_URL,
     method: "GET",
   })
-<<<<<<< HEAD
     .then(function (res) {
       // console.log("🚀 ~ res:", res);
       renderProduct(res.data);
       handleGetData(res.data);
-=======
-    .then(({ data }) => {
-      renderProduct(data);
-      handleGetData(data);
->>>>>>> 13037d2da3d7725ae400cea520b272f43d3720e7
     })
     .catch((error) => {
       console.log("🚀error---->", error);
