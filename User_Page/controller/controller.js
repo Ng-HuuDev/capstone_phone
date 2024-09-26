@@ -1,3 +1,4 @@
+// render ra man hình
 const renderProduct = (productList) => {
   const renderEl = document.querySelector(".card-list");
   let html = "";
@@ -24,4 +25,37 @@ const renderProduct = (productList) => {
       `;
   }
   renderEl.innerHTML = html;
+};
+
+// phone filter
+const filterPhone = []; // tạo mảng chứa sp muốn lọc
+const handleGetData = (data) => {
+  // duyệt mảng
+  for (let i = 0; i < data.length; i++) {
+    filterPhone.push(data[i]);
+  }
+};
+
+const handleFilterProduct = () => {
+  const selectedEl = document.getElementById("mySelect");
+  let valueSelected = selectedEl.value;
+
+  if (valueSelected === "Samsung") {
+    // console.log("filterPhone---->", filterPhone);
+    const filterSamsung = filterPhone.filter((item) => {
+      return item.type === "Samsung";
+    });
+    renderProduct(filterSamsung);
+  }
+
+  if (valueSelected === "Iphone") {
+    const filterIphone = filterPhone.filter((item) => {
+      return item.type === "Iphone";
+    });
+    renderProduct(filterIphone);
+  }
+
+  if (valueSelected === "--") {
+    renderProduct(filterPhone);
+  }
 };

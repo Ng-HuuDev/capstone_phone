@@ -23,6 +23,7 @@ function fetchProducts() {
     .then(function (res) {
       // console.log("🚀 ~ res:", res);
       renderProduct(res.data);
+      handleGetData(res.data);
     })
     .catch(function (err) {
       console.log("🚀 ~ updateProduct ~ err:", err);
