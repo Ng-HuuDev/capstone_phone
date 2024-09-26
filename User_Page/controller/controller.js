@@ -1,10 +1,10 @@
 // render ra man hình
 const renderProduct = (productList) => {
   const renderEl = document.querySelector(".card-list");
-  let html = "";
+  let contentHtml = "";
   for (let i = 0; i < productList.length; i++) {
     const product = productList[i];
-    html += `
+    contentHtml += `
       <div class="card">
       <div class="card-top">
           <i class="fa-brands fa-apple"></i>
@@ -24,7 +24,7 @@ const renderProduct = (productList) => {
   </div>
       `;
   }
-  renderEl.innerHTML = html;
+  renderEl.innerHTML = contentHtml;
 };
 
 // phone filter
