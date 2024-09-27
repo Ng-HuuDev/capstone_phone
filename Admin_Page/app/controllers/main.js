@@ -37,35 +37,25 @@ function deleteProduct(id) {
 
 // lay thong tin tu form
 function addNewProduct() {
-  let name = document.getElementById("TenSP").value;
-  let price = document.getElementById("GiaSP").value;
-  let img = document.getElementById("HinhSP").value;
-  let desc = document.getElementById("MotaSP").value;
-  let type = document.getElementById("loaiSP").value;
-
-  // tao object
-  let product = {
-    name,
-    price,
-    img,
-    desc,
-    type,
-  };
-  // method
-  axios({
-    url: BASE_URL,
-    method: "POST",
-    data: product,
-  })
-    .then(function (res) {
-      console.log("🚀 ~ res:", res);
-      // tat modal s zau khi them thanh cong
-      $("#myModal").modal("hide");
-      // lay data moi nhat sau khi them
-      fetchProduct();
-      showMessage("Thêm sản phẩm thành công");
+  const isValid = validateForm();
+  if (isValid) {
+    const payload = getDataForm();
+    // method
+    axios({
+      url: BASE_URL,
+      method: "POST",
+      data: payload,
     })
-    .catch(function (err) {});
+      .then(function (res) {
+        console.log("🚀 ~ res:", res);
+        // tat modal s zau khi them thanh cong
+        // lay data moi nhat sau khi them
+        showMessage("Thêm sản phẩm thành công");
+        fetchProduct();
+        $("#myModal").modal("hide");
+      })
+      .catch(function (err) {});
+  }
 }
 
 // sua sp: lay chi tiet - "PUT"

@@ -39,6 +39,25 @@ function showMessage(message) {
   }).showToast();
 }
 
+// get dataForm
+
+const getDataForm = () => {
+  const name = document.getElementById("TenSP").value;
+  const price = document.getElementById("GiaSP").value;
+  const img = document.getElementById("HinhSP").value;
+  const desc = document.getElementById("MotaSP").value;
+  const type = document.getElementById("loaiSP").value;
+  // tao object
+  const payLoad = {
+    name: name,
+    price: price,
+    img: img,
+    desc: desc,
+    type: type,
+  };
+  return payLoad;
+};
+
 // show dataform
 function hienThiThongTin(product) {
   document.getElementById("TenSP").value = product.name;
@@ -57,7 +76,6 @@ const getDataApi = (data) => {
     filterCart.push(data[i]);
   }
 };
-
 const handleFilterPrice = () => {
   const inputTypePrice = document.getElementById("myPrice");
   const valuePrice = inputTypePrice.value;
