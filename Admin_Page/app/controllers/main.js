@@ -1,107 +1,97 @@
 const BASE_URL = "https://66d6822e006bfbe2e64d9b6a.mockapi.io/shopphone";
 
-var editedId = null;
-// GOI API lay danh sach san pham
-function fetchProduct() {
+const fetchProductList = () => {
   axios({
     url: BASE_URL,
     method: "GET",
   })
-    .then(function (res) {
-      renderProduct(res.data);
-      getDataApi(res.data);
+    .then(({ data }) => {
+      console.log("🚀data---->", data);
+      renderProductList(data);
+      getDataApi(data);
     })
-    .catch(function (err) {
-      console.log("🚀 ~ err:", err);
+    .catch((error) => {
+      console.log("🚀error---->", error);
     });
-}
-fetchProduct();
+};
 
-// xoa sp
-function deleteProduct(id) {
+fetchProductList();
+
+const deleteProduct = (productId) => {
   axios({
-    url: `${BASE_URL}/${id}`,
+    url: `${BASE_URL}/${productId}`,
     method: "DELETE",
   })
-    .then(function (res) {
-      console.log("🚀 ~ xoa thanh cong", res);
-      fetchProduct();
-      showMessage("Xóa Thành Công");
+    .then(({ data }) => {
+      fetchProductList();
     })
-    .catch(function (err) {
-      console.log("🚀 ~ deleteProduct ~ err:", err);
+    .catch((error) => {
+      console.log("🚀error---->", error);
     });
-}
+};
 
-// them sp - "POST"
-
-// lay thong tin tu form
-function addNewProduct() {
+const addNewProduct = () => {
   const isValid = validateForm();
+
   if (isValid) {
     const payload = getDataForm();
-    // method
     axios({
       url: BASE_URL,
       method: "POST",
       data: payload,
     })
-      .then(function (res) {
-        console.log("🚀 ~ res:", res);
-        // tat modal s zau khi them thanh cong
-        // lay data moi nhat sau khi them
-        showMessage("Thêm sản phẩm thành công");
-        fetchProduct();
+      .then(({ data }) => {
+        showMessage("Đã tạo mới sản phẩm");
+        fetchProductList();
         $("#myModal").modal("hide");
       })
-      .catch(function (err) {});
+      .catch((error) => {
+        console.log("🚀error---->", error);
+      });
   }
-}
+};
+let productUpdateId = null;
 
-// sua sp: lay chi tiet - "PUT"
-
-function editProduct(id) {
-  // console.log(id);
-  // chuan bi cho viec update san pham => gan id vao bien editedId
-  editedId = id;
-  // dua vao id, goi api lay chi tiet san pham
+const editProduct = (productId) => {
+  updateBtn.disabled = false;
+  productUpdateId = productId;
+  document.querySelector(".modal-title").innerText = `ID: ${productId}`;
   axios({
-    url: `${BASE_URL}/${id}`,
-    method: "PUT",
+    url: `${BASE_URL}/${productId}`,
+    method: "GET",
   })
-    .then(function (res) {
-      // console.log("🚀 ~ res:", res.data);
-      // hien modal
+    .then(({ data }) => {
       $("#myModal").modal("show");
-      // gan du lieu lay tu server vao form
-      hienThiThongTin(res.data);
-      // khong cho user sua ten san pham
-      document.getElementById("TenSP").disabled = true;
+      const addBtn = document.querySelector(".add");
+      addBtn.disabled = true;
+      document.getElementById("TenSP").value = data.name;
+      document.getElementById("GiaSP").value = data.price;
+      document.getElementById("HinhSP").value = data.img;
+      document.getElementById("MotaSP").value = data.desc;
+      document.getElementById("loaiSP").value = data.type;
     })
-    .catch(function (err) {
-      console.log("🚀 ~ editProduct ~ err:", err);
+    .catch((error) => {
+      console.log("🚀error---->", error);
     });
-}
+};
 
-// cap nhat
-
-function updateProduct() {
-  var product = addNewProduct();
-  axios({
-    url: `${BASE_URL}/product/${editProduct}`,
-    method: "PUT",
-    data: product,
-  })
-    .then(function (res) {
-      // console.log("🚀 ~ res:", res);
-      // tat modal
-      $("#myModal").modal("hide");
-
-      // goi lai api moi nhat tu server
-      showMessage("Cập Nhật Thành Công");
-      fetchProduct();
+const updateProduct = () => {
+  const isValid = validateForm();
+  if (isValid) {
+    const payload = getDataForm();
+    axios({
+      url: `${BASE_URL}/${productUpdateId}`,
+      method: "PUT",
+      data: payload,
     })
-    .catch(function (err) {
-      console.log("🚀 ~ updateProduct ~ err:", err);
-    });
-}
+      .then(({ data }) => {
+        showMessage("Đã cập nhật lại sản phẩm");
+        fetchProductList();
+        $("#myModal").modal("hide");
+        console.log("🚀isValid---->", isValid);
+      })
+      .catch((err) => {
+        console.log("🚀err---->", err);
+      });
+  }
+};

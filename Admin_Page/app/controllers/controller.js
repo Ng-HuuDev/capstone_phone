@@ -1,73 +1,46 @@
-// render array product tu api
-function renderProduct(productArr) {
-  let contentHtml = "";
-  productArr.forEach(function (item) {
-    let trString = `
+const renderProductList = (productList) => {
+  const containerEl = document.getElementById("tblDanhSachSP");
+  containerEl.innerHTML = "";
+  let html = "";
+  for (let i = 0; i < productList.length; i++) {
+    const product = productList[i];
+    html += `
       <tr>
-          <td>${item.id} </td>
-          <td>${item.name} </td>
-          <td>${item.price} </td>
-          <td><img src="${item.img}" alt="" width="100px" /> </td>
-          <td>${item.desc} </td>
-          <td>${item.type} </td>
-          <td>
-          <button onclick='deleteProduct(${item.id})' class="btn btn-success"> Xoa </button>
-          <button  onclick='editProduct(${item.id})' class="btn btn-danger"> Sua </button>
-          </td>
+      <td>${product.id}</td>
+      <td>${product.name}</td>
+      <td>${product.price}</td>
+      <td>
+      <img width="80px" height="80px" src="${product.img}"/>
+      </td>
+      <td>${product.desc}</td>
+      <td>${product.type}</td>
+      <td>
+      <button class="btn btn-primary" onClick="deleteProduct('${product.id}')">Xóa</button>
+      <button class="btn btn-danger" onClick="editProduct(${product.id})">Sửa</button>
+      </td>
+      
       </tr>
       `;
-    contentHtml += trString;
-  });
-  document.getElementById("tblDanhSachSP").innerHTML = contentHtml;
-}
-
-// Thong bao: CRUD
-function showMessage(message) {
-  Toastify({
-    text: message,
-    duration: 3000,
-    destination: "https://github.com/apvarun/toastify-js",
-    newWindow: true,
-    close: true,
-    gravity: "top", // `top` or `bottom`
-    position: "right", // `left`, `center` or `right`
-    stopOnFocus: true, // Prevents dismissing of toast on hover
-    style: {
-      background: "#00b09b)",
-    },
-    onClick: function () {}, // Callback after click
-  }).showToast();
-}
-
-// get dataForm
-
-const getDataForm = () => {
-  const name = document.getElementById("TenSP").value;
-  const price = document.getElementById("GiaSP").value;
-  const img = document.getElementById("HinhSP").value;
-  const desc = document.getElementById("MotaSP").value;
-  const type = document.getElementById("loaiSP").value;
-  // tao object
-  const payLoad = {
-    name: name,
-    price: price,
-    img: img,
-    desc: desc,
-    type: type,
-  };
-  return payLoad;
+  }
+  containerEl.innerHTML = html;
 };
 
-// show dataform
-function hienThiThongTin(product) {
-  document.getElementById("TenSP").value = product.name;
-  document.getElementById("GiaSP").value = product.price;
-  document.getElementById("HinhSP").value = product.img;
-  document.getElementById("MotaSP").value = product.desc;
-  document.getElementById("loaiSP").value = product.type;
-}
+const getDataForm = () => {
+  const nameEl = document.getElementById("TenSP").value;
+  const priceEl = document.getElementById("GiaSP").value;
+  const imageEl = document.getElementById("HinhSP").value;
+  const descEl = document.getElementById("MotaSP").value;
+  const typeEl = document.getElementById("loaiSP").value;
 
-// Sắp xếp sp giá từ thấp đến cao hoac tu cao den thap
+  const payload = {
+    name: nameEl,
+    price: priceEl,
+    img: imageEl,
+    desc: descEl,
+    type: typeEl,
+  };
+  return payload;
+};
 
 const filterCart = [];
 const getDataApi = (data) => {
@@ -76,6 +49,16 @@ const getDataApi = (data) => {
     filterCart.push(data[i]);
   }
 };
+
+const searchProduct = () => {
+  const inputSearchEl = document.querySelector(".inputSearch").value;
+  const valueSearch = inputSearchEl.toLowerCase();
+  const newData = filterCart.filter((item) => {
+    return item.name.toLowerCase().includes(valueSearch);
+  });
+  renderProductList(newData);
+};
+
 const handleFilterPrice = () => {
   const inputTypePrice = document.getElementById("myPrice");
   const valuePrice = inputTypePrice.value;
@@ -84,9 +67,9 @@ const handleFilterPrice = () => {
     filterCart.sort((a, b) => b.price - a.price);
     const newCart = [...filterCart];
 
-    renderProduct(newCart);
+    renderProductList(newCart);
   } else if (valuePrice === "lowToHigh") {
     filterCart.sort((a, b) => a.price - b.price);
-    renderProduct(filterCart);
+    renderProductList(filterCart);
   }
 };
