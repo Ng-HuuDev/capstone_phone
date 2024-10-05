@@ -1,4 +1,4 @@
-//VARIABLE
+//Variable
 const cartIcon = document.querySelector(".cart-shopping");
 const menuCart = document.querySelector(".menu-cart");
 const overlay = document.querySelector(".overlay");
@@ -72,7 +72,7 @@ const handleShowQuantity = (cart) => {
     numberEl.textContent = total;
   }
 };
-
+// local storage
 const dataJson = localStorage.getItem("dataPhone");
 if (dataJson !== null) {
   let dataPhoneRaw = JSON.parse(dataJson);
@@ -81,8 +81,9 @@ if (dataJson !== null) {
   handleShowQuantity(cart);
 }
 
+// render Sp ra man hinh
 const renderProductList = (productList) => {
-  const renderEl = document.querySelector(".card-list");
+  const renderList = document.querySelector(".card-list");
   let html = "";
   for (let i = 0; i < productList.length; i++) {
     const product = productList[i];
@@ -106,8 +107,10 @@ const renderProductList = (productList) => {
 </div>
     `;
   }
-  renderEl.innerHTML = html;
+  renderList.innerHTML = html;
 };
+
+// thong bao
 const showMessage = (message, isSuccess = true) => {
   Toastify({
     text: message,
